@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onlineshop - Flagory</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Ikoner -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Overlay til sidebar -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Sidebar / kurv -->
+<aside class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h2>Din kurv</h2>
+    <button class="close-cart" id="closeCart">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <div class="cart-content">
+    <div class="cart-item">
+      <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?auto=format&fit=crop&w=500&q=80" alt="Memory Smiley">
+      <div class="cart-item-info">
+        <h3>Flagory</h3>
+        <span>59 kr.</span>
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <p>I alt</p>
+      <strong> 59 kr.</strong>
+    </div>
+
+    <button class="checkout-btn">Gå til betaling</button>
+  </div>
+</aside>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <img src="logo færdig.png" width="200" hight="200"/>
+    </div>
+
+    <div class="header-center">
+      <button class="header-icon-btn" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <button class="header-icon-btn" id="searchToggle" aria-label="Søg">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+
+      <div class="header-search-pill" id="searchBox">
+        <input type="text" id="searchInput" placeholder="Søg efter spil...">
+      </div>
+
+      <button class="header-icon-btn" aria-label="Min konto">
+        <i class="fa-regular fa-user"></i>
+      </button>
+
+      <button class="header-icon-btn" id="openCart" aria-label="Kurv">
+        <i class="fa-solid fa-bag-shopping"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero / produkt -->
+<main>
+  <section class="hero-section">
+    <div class="hero-text">
+      <h1>Flagory</h1>
+
+      <div class="product-meta">
+        <span class="price">Pris 59 kr.</span>
+
+        <button class="badge" id="addToCart" type="button">
+          <span>Læg i kurv</span>
+          <i class="fa-solid fa-bag-shopping"></i>
+        </button>
+      </div>
+
+      <h2 class="description">
+        Beskrivelse
+      </h2>
+
+      <p class="description">
+        Et farverigt og sjovt memoryspil med lande-tema, der styrker barnets hukommelse,
+        koncentration og genkendelse flere forskellige land og flag. Perfekt til hyggelige stunder hjemme.
+      </p>
+      <div class="info-badges">
+        <span class="info-badge">Spil mod AI</span>
+        <span class="info-badge">1-6 spillere</span>
+        <span class="info-badge">Fra 6 år+</span>
+      </div>
+    </div>
+
+    <div class="hero-image-card">
+      <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80" alt="Memory Smiley spil">
+    </div>
+  </section>
+
+  <!-- Info-sektion -->
+  <section class="benefits-section">
+
+    <div class="benefits-shell">
+      <h2 class="benefits-title">Om Flagory</h2>
+      <button class="arrow-btn arrow-left" id="prevBenefit" aria-label="Forrige">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+
+      <div class="benefits-track" id="benefitsSlider">
+        <div class="benefit-card">
+          <i class="fa-regular fa-face-smile"></i>
+          <h3>Børnevenligt design</h3>
+          <p>Glade farver og simple former gør spillet let og trygt at gå til for mindre børn.</p>
+        </div>
+
+        <div class="benefit-card active">
+          <i class="fa-solid fa-brain"></i>
+          <h3>Træner hukommelsen</h3>
+          <p>Memory hjælper børn med at øve koncentration, genkendelse og fokus gennem leg.</p>
+        </div>
+
+        <div class="benefit-card">
+          <i class="fa-solid fa-mobile-screen-button"></i>
+          <h3>Virker på mobil og pc</h3>
+          <p>Spillet kan bruges både hjemme på computer og på farten via telefon eller tablet.</p>
+        </div>
+      </div>
+
+      <button class="arrow-btn arrow-right" id="nextBenefit" aria-label="Næste">
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- Demo-sektion -->
+  <section class="demo-section">
+    <div class="demo-text">
+      <h2>Demo</h2>
+      <p>
+        Se hvordan spillet føles, før du køber. Demoen giver et hurtigt indblik i det farverige
+        geografiske-univers og den enkle spiloplevelse.
+      </p>
+    </div>
+
+    <div class="demo-image-wrapper">
+      <img src="playbuttom_n.png"/>
+      <a href="index.html" class="play-demo-btn" aria-label="Spil demo">
+        <h1>
+          TRY NOW
+        </h1>
+      </a>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <p>© 2026 Onlinespil - Sjove spil til børn og familier</p>
+</footer>
+
+<!-- JavaScript -->
+<script src="script.js"></script>
+
+</body>
+</html>

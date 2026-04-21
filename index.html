@@ -3,175 +3,250 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Onlineshop - Flagory</title>
+  <title>Memory Master</title>
+  <style>
+    * {
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial,sans-serif
+    }
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
+    body {
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background-image: url("baggrund.png");
+      color:#fff;padding:20px
+    }
 
-  <!-- Ikoner -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    .container {
+      max-width:900px;
+      width:100%;
+      text-align:center;
+      background:rgba(255,255,255,.12);
+      backdrop-filter:blur(10px);
+      padding:35px;
+      border-radius:24px;
+      box-shadow:0 12px 30px rgba(0,0,0,.25)
+    }
+
+    .logo {
+      display: flex;
+      align-items: flex-start;
+      padding: 5px;
+      margin: 5px;
+    }
+    h1 {
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .stats {
+      display:flex;
+      justify-content:center;
+      gap:30px;
+      margin:18px 0;
+      font-size:1.1rem;
+      font-weight:bold
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(4,minmax(60px,90px));
+      gap:12px;
+      justify-content:center;
+      margin:25px 0
+    }
+
+    .card {
+      width:100%;
+      aspect-ratio:1/1;
+      background:#1d4ed8;
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:2rem;
+      cursor:pointer;
+      transition:.3s;
+      user-select:none
+    }
+
+    .card.flipped,.card.matched {
+      background:#fb923c;
+      transform:rotateY(180deg)
+    }
+
+    .card.matched {
+      cursor:default;opacity:.85
+    }
+
+    button {
+      border: none;
+      background-image: linear-gradient(#f8ba35, #df6a0c);
+      color:#0f172a;
+      padding:14px 30px;
+      border-radius:999px;
+      font-size:1rem;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    button:hover {
+      box-shadow: 0 0 15px 5px rgb(244, 244, 244);
+      transform: scale(1.2);
+      background-image: linear-gradient(#b7c2ff, #5561d1);
+      border-radius: 100px;
+    }
+
+    .overlay {
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.7);
+      display:none;
+      align-items:center;
+      justify-content:center
+    }
+
+    .win-box {
+      background:white;
+      color:#0f172a;
+      padding:30px;
+      border-radius:24px;
+      text-align:center;
+      max-width:320px;
+    }
+
+    .show {
+      display:flex
+    }
+    @media (max-width: 768px)
+    {
+      .container {
+        padding:20px
+      }
+      .stats {
+        flex-direction:column;gap:10px
+      }
+      .grid {
+        grid-template-columns:repeat(4,minmax(55px,1fr));gap:10px
+      }
+      .card {
+        font-size:1.5rem;border-radius:14px
+      }
+      button {
+        width:100%;max-width:260px
+      }
+      button:hover {
+        width:100%;max-width:260px
+      }
+    }
+    @media (max-width: 480px)
+    {
+
+      p {
+        font-size:.95rem
+      }
+      .grid{grid-template-columns:repeat(4,minmax(50px,1fr));gap:8px}
+    }
+  </style>
 </head>
 <body>
-
-<!-- Overlay til sidebar -->
-<div class="overlay" id="overlay"></div>
-
-<!-- Sidebar / kurv -->
-<aside class="cart-sidebar" id="cartSidebar">
-  <div class="cart-header">
-    <h2>Din kurv</h2>
-    <button class="close-cart" id="closeCart">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
+<div class="container">
+    <div class="logo">
+      <img src="spilhuset-online.png">
+    </div>
+      <h1>
+      <img src="Flagory logo.png" width="100%">
+      </h1>
+  <p>Find alle par og få fat i så mange point du kan</p>
+  <div class="stats">
+    <div>⭐ Point: <span id="score">0</span></div>
+    <div>🎯 Træk: <span id="moves">0</span></div>
   </div>
+  <div class="grid" id="grid"></div>
+  <button onclick="startGame()">Nyt Spil</button>
+</div>
 
-  <div class="cart-content">
-    <div class="cart-item">
-      <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?auto=format&fit=crop&w=500&q=80" alt="Memory Smiley">
-      <div class="cart-item-info">
-        <h3>Flagory</h3>
-        <span>59 kr.</span>
-      </div>
-    </div>
-
-    <div class="cart-summary">
-      <p>I alt</p>
-      <strong> 59 kr.</strong>
-    </div>
-
-    <button class="checkout-btn">Gå til betaling</button>
+<div class="overlay" id="overlay">
+  <div class="win-box">
+    <h2 id="resultTitle">🎉 Du vandt!</h2>
+    <p id="resultText"></p>
+    <button onclick="startGame()">Spil igen</button>
   </div>
-</aside>
+</div>
 
-<!-- Header -->
-<header class="site-header">
-  <div class="header-inner">
-    <div class="header-left">
-      <img src="logo færdig.png" width="200" hight="200"/>
-    </div>
+<script>
+  const baseSymbols=['🐶','🐱','🦊','🐸','🐼','🦄','🐯','🐵'];
+  let cards=[], firstCard=null, secondCard=null, lock=false;
+  let score=0,moves=0,matchedPairs=0;
+  const grid=document.getElementById('grid');
 
-    <div class="header-center">
-      <button class="header-icon-btn" aria-label="Menu">
-        <i class="fa-solid fa-bars"></i>
-      </button>
+  function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
 
-      <button class="header-icon-btn" id="searchToggle" aria-label="Søg">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
+  function startGame(){
+    cards = shuffle([...baseSymbols,...baseSymbols]);
+    firstCard=secondCard=null; lock=false;
+    score=0; moves=0; matchedPairs=0;
+    document.getElementById('overlay').classList.remove('show');
+    render(); updateStats();
+  }
 
-      <div class="header-search-pill" id="searchBox">
-        <input type="text" id="searchInput" placeholder="Søg efter spil...">
-      </div>
+  function render(){
+    grid.innerHTML='';
+    cards.forEach((symbol,index)=>{
+      const card=document.createElement('div');
+      card.className='card';
+      card.textContent='?';
+      card.dataset.index=index;
+      card.onclick=()=>flipCard(card,index,symbol);
+      grid.appendChild(card);
+    });
+  }
 
-      <button class="header-icon-btn" aria-label="Min konto">
-        <i class="fa-regular fa-user"></i>
-      </button>
+  function flipCard(card,index,symbol){
+    if(lock||card.classList.contains('flipped')||card.classList.contains('matched')) return;
+    card.classList.add('flipped');
+    card.textContent=symbol;
+    if(!firstCard){ firstCard={card,index,symbol}; return; }
+    secondCard={card,index,symbol};
+    moves++;
+    lock=true;
+    if(firstCard.symbol===secondCard.symbol){
+      firstCard.card.classList.add('matched');
+      secondCard.card.classList.add('matched');
+      score+=10; matchedPairs++;
+      resetTurn();
+      if(matchedPairs===baseSymbols.length) endGame(true);
+    } else {
+      score=Math.max(0,score-2);
+      setTimeout(()=>{
+        firstCard.card.classList.remove('flipped'); firstCard.card.textContent='?';
+        secondCard.card.classList.remove('flipped'); secondCard.card.textContent='?';
+        resetTurn();
+      },800);
+    }
+    updateStats();
+  }
 
-      <button class="header-icon-btn" id="openCart" aria-label="Kurv">
-        <i class="fa-solid fa-bag-shopping"></i>
-      </button>
-    </div>
-  </div>
-</header>
+  function resetTurn(){ firstCard=null; secondCard=null; lock=false; updateStats(); }
+  function updateStats(){
+    scoreEl.textContent=score;
+    moves.textContent=moves;
+  }
 
-<!-- Hero / produkt -->
-<main>
-  <section class="hero-section">
-    <div class="hero-text">
-      <h1>Flagory</h1>
+  function endGame(win){
+    document.getElementById('resultTitle').textContent = '🎉 Du vandt!';
 
-      <div class="product-meta">
-        <span class="price">Pris 59 kr.</span>
+    document.getElementById('overlay').classList.add('show');
+  }
 
-        <button class="badge" id="addToCart" type="button">
-          <span>Læg i kurv</span>
-          <i class="fa-solid fa-bag-shopping"></i>
-        </button>
-      </div>
-
-      <h2 class="description">
-        Beskrivelse
-      </h2>
-
-      <p class="description">
-        Et farverigt og sjovt memoryspil med lande-tema, der styrker barnets hukommelse,
-        koncentration og genkendelse flere forskellige land og flag. Perfekt til hyggelige stunder hjemme.
-      </p>
-      <div class="info-badges">
-        <span class="info-badge">Spil mod AI</span>
-        <span class="info-badge">1-6 spillere</span>
-        <span class="info-badge">Fra 6 år+</span>
-      </div>
-    </div>
-
-    <div class="hero-image-card">
-      <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80" alt="Memory Smiley spil">
-    </div>
-  </section>
-
-  <!-- Info-sektion -->
-  <section class="benefits-section">
-
-    <div class="benefits-shell">
-      <h2 class="benefits-title">Om Flagory</h2>
-      <button class="arrow-btn arrow-left" id="prevBenefit" aria-label="Forrige">
-        <i class="fa-solid fa-arrow-left"></i>
-      </button>
-
-      <div class="benefits-track" id="benefitsSlider">
-        <div class="benefit-card">
-          <i class="fa-regular fa-face-smile"></i>
-          <h3>Børnevenligt design</h3>
-          <p>Glade farver og simple former gør spillet let og trygt at gå til for mindre børn.</p>
-        </div>
-
-        <div class="benefit-card active">
-          <i class="fa-solid fa-brain"></i>
-          <h3>Træner hukommelsen</h3>
-          <p>Memory hjælper børn med at øve koncentration, genkendelse og fokus gennem leg.</p>
-        </div>
-
-        <div class="benefit-card">
-          <i class="fa-solid fa-mobile-screen-button"></i>
-          <h3>Virker på mobil og pc</h3>
-          <p>Spillet kan bruges både hjemme på computer og på farten via telefon eller tablet.</p>
-        </div>
-      </div>
-
-      <button class="arrow-btn arrow-right" id="nextBenefit" aria-label="Næste">
-        <i class="fa-solid fa-arrow-right"></i>
-      </button>
-    </div>
-  </section>
-
-  <!-- Demo-sektion -->
-  <section class="demo-section">
-    <div class="demo-text">
-      <h2>Demo</h2>
-      <p>
-        Se hvordan spillet føles, før du køber. Demoen giver et hurtigt indblik i det farverige
-        geografiske-univers og den enkle spiloplevelse.
-      </p>
-    </div>
-
-    <div class="demo-image-wrapper">
-      <img src="Memory spil billede skærm bjerge.png"/>
-      <a href="case1.html" class="play-demo-btn" aria-label="Spil demo">
-        <h1>
-          TRY NOW
-        </h1>
-      </a>
-    </div>
-  </section>
-</main>
-
-<!-- Footer -->
-<footer class="site-footer">
-  <p>© 2026 Onlinespil - Sjove spil til børn og familier</p>
-</footer>
-
-<!-- JavaScript -->
-<script src="script.js"></script>
-
+  const scoreEl=document.getElementById('score');
+  startGame();
+</script>
 </body>
 </html>
